@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "settings": {
+      "pair": "eurusd",
+      "ratio": 1
+    }
+  },
+  {
+    "id": 2,
+    "settings": {
+      "pair": "audusd",
+      "ratio": 2
+    }
+  }
+]

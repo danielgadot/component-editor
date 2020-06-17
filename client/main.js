@@ -1,25 +1,32 @@
+import Node from './node.js';
+import TreeView from './tree/tree.view.js';
+import TreeCtrl from './tree/tree.ctrl.js';
+
 class Main {
   constructor() {
-    this.treeAsArray = [new Node(0, [], [], null, { name: 'root-node' }, 'root')];
-    this.el = document.querySelector('.tree');
-    this.editorPara = document.querySelector('.component-editor');
-    this.editorParaTitle = document.querySelector('.component-editor-title');
-    this.nestedTree = [];
-    this.saveRightClickdClass = -1;
-    this.selectedComponent = '';
-    this.ctxMenu = document.getElementById('ctxMenu');
-    this.disableRemoveBtn = document.querySelector('.remove-component-btn');
-    this.disableRemoveBtn.disabled = true;
-    this.userSearchInput = document.querySelector('.user-search');
-    this.elPage = document.querySelector('.page');
+      this.treeView = new TreeView();
+      this.treeCtrl = new TreeCtrl();
+      this.treeAsArray = [new Node(0, [], [], null, { name: 'root-node' }, 'root')];
+      this.el = document.querySelector('.tree');
+      this.editorPara = document.querySelector('.component-editor');
+      this.editorParaTitle = document.querySelector('.component-editor-title');
+      this.nestedTree = [];
+      this.saveRightClickdClass = -1;
+      this.selectedComponent = '';
+      this.ctxMenu = document.getElementById('ctxMenu');
+      // this.disableRemoveBtn = document.querySelector('.remove-component-btn');
+      // this.disableRemoveBtn.disabled = true;
+      this.userSearchInput = document.querySelector('.user-search');
+      this.elPage = document.querySelector('.page');
 
   }
 
   // add component to tree
-  addComponent() {
-    let type = prompt(
-      'Type of component?   (Grid, Chart, Category, Container)'
-    );
+  addComponent(fileToAdd) {
+    console.log('%c fileToAdd :: ', ' color: red', fileToAdd);
+    
+    let type = fileToAdd.innerText;
+    let fileName = prompt('file / directory name');
     let position = this.treeAsArray.length;
     let addToParent = '';
     if (this.selectedComponent !== '') {
@@ -28,8 +35,8 @@ class Main {
       addToParent = 'root-node';
     }
     let newNode = new Node(position, [], [], addToParent, {
-      name: `${type}-${position}`,
-      data_sql: 'select * from dual'
+      name: `${fileName}.${type}-${position}`,
+      data_sql: 'import {} from @angular/core'
     }, type);
 
     this.treeAsArray.push(newNode);
@@ -94,7 +101,7 @@ class Main {
   fillTreeWithChildren(childrenArr, parentName) {
     for (let i = 0; i < this.treeAsArray.length; i++) {
       let obj = this.treeAsArray[i];
-      if (obj.parent == parentName) {
+      if (obj.parent === parentName) {
         childrenArr.push(obj);
         obj.childrens = [];
         this.fillTreeWithChildren(obj.childrens, obj.data.name);
@@ -209,7 +216,7 @@ class Main {
   * @Param {string} matchingTitle : component name, 
   */
   findNestedNode(node, componentName) {
-    if(node.data.name == componentName){
+    if(node.data.name === componentName){
         return node;
    }else if (node.childrens !== null){
         let i;
@@ -223,3 +230,4 @@ class Main {
 
 }
 let mainObj = new Main();
+export default mainObj;

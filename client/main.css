@@ -40,7 +40,9 @@ menu:not([title]):before{
 .node:hover {
     cursor: pointer;
 }
-
+ul {
+    list-style-image: url('assets/document-dark.svg');
+}
 li:hover {
     border: 1px solid cadetblue;
     cursor: pointer;
@@ -91,13 +93,31 @@ i {
     border-width: 0 3px 3px 0;
     display: inline-block;
     padding: 3px;
-  }
-  .help {
-      border: 1px solid blueviolet;
-      border-radius: 4px;
-      cursor: help;
-  }
+}
+.help {
+    border: 1px solid blueviolet;
+    border-radius: 4px;
+    cursor: help;
+}
 
-  body {
+body {
     background-color: #80808099;
-  }
+}
+
+.add-file-popup {
+    display: none;
+    position: absolute;
+    border: 1px black solid;
+}
+.add-file-popup ul {
+    list-style-type: none;
+}
+
+textarea {
+    background: url('assets/line.png');
+    background-attachment: local;
+    background-repeat: no-repeat;
+    padding-left: 35px;
+    padding-top: 10px;
+    border-color:#ccc;
+}

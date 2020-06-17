@@ -26,14 +26,10 @@
      * didnt find in the instructions how the user should choose where to , the idea is the same as moveNode,
      * switch between two positions in tree array and plugin new parent if necessary"
    ><span class="help">Help</span></h1>
-    <div class="page" onmousedown="mainObj.unselectedComponent()">
+    <!-- <div class="page" onmousedown="mainObj.unselectedComponent()"> -->
+    <div class="page" >
         <div class="panel-wrap">
-            
-            <input class="user-search" type="text" placeholder="search" onkeyup="mainObj.userSearch()"> <br>
-            <button onclick="mainObj.addComponent()">+</button>
-            <button class="remove-component-btn" onclick="mainObj.removeComponent()">-</button>
-            
-            <ul class="tree"></ul>
+
         </div>
 
         <button style="float: right;height: 20px;margin-right: 20px;" onclick="togglePanel()"> <i class="toggle-panel left-arrow"></i></button>
@@ -43,8 +39,7 @@
                 <h2 class="component-editor-title"></h2>
             </div>
             <div style="display: flex; justify-content: center; vertical-align: center;">
-                Data SQL: 
-                <textarea  onfocusout="mainObj.editData()" class="component-editor" cols="30" rows="10"></textarea>
+                <textarea  onfocusout="mainObj.editData()" class="component-editor" cols="100" rows="40"></textarea>
             </div>
         </div>
     </div>
@@ -61,9 +56,11 @@
     </menu>
 </body>
 
-<script src="util.js"></script>
-<script src="node.js"></script>
-<script src="main.js"></script>
+<!-- <script src="util.js"></script> -->
+<!-- <script src="node.js"></script> -->
+<script src="main.js" type="module"></script>
+<!-- <script src="add-file-modal.js"></script> -->
+
 
 </html>
 
