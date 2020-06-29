@@ -1,9 +1,15 @@
-import Node from './node.js';
-import TreeView from './tree/tree.view.js';
-import TreeCtrl from './tree/tree.ctrl.js';
+import Node from '../node.js';
+import TreeView from '../tree/tree.view.js';
+import TreeCtrl from '../tree/tree.ctrl.js';
+import ActionsToolbarView from '../actions-toolbar/actions-toolbar.view.js';
+import ActionsToolbarCtrl from '../actions-toolbar/actions-toolbar.ctrl.js';
+import CtxMenuView from '../ctx-menu/ctx-menu.view.js';
+import MainView from './main.view.js';
 
 class Main {
   constructor() {
+      this.actionsToolbarView = new ActionsToolbarView();
+      this.actionsToolbarCtrl = new ActionsToolbarCtrl();
       this.treeView = new TreeView();
       this.treeCtrl = new TreeCtrl();
       this.treeAsArray = [new Node(0, [], [], null, { name: 'root-node' }, 'root')];
@@ -13,9 +19,9 @@ class Main {
       this.nestedTree = [];
       this.saveRightClickdClass = -1;
       this.selectedComponent = '';
-      this.ctxMenu = document.getElementById('ctxMenu');
-      // this.disableRemoveBtn = document.querySelector('.remove-component-btn');
-      // this.disableRemoveBtn.disabled = true;
+      
+      this.disableRemoveBtn = document.querySelector('.remove-component-btn');
+      this.disableRemoveBtn.disabled = true;
       this.userSearchInput = document.querySelector('.user-search');
       this.elPage = document.querySelector('.page');
 
@@ -23,10 +29,9 @@ class Main {
 
   // add component to tree
   addComponent(fileToAdd) {
-    console.log('%c fileToAdd :: ', ' color: red', fileToAdd);
     
     let type = fileToAdd.innerText;
-    let fileName = prompt('file / directory name');
+    let fileName = prompt('file  name');
     let position = this.treeAsArray.length;
     let addToParent = '';
     if (this.selectedComponent !== '') {
@@ -35,16 +40,17 @@ class Main {
       addToParent = 'root-node';
     }
     let newNode = new Node(position, [], [], addToParent, {
-      name: `${fileName}.${type}-${position}`,
-      data_sql: 'import {} from @angular/core'
+      name: `${fileName}.${type}`,
+      data: 'import {} from @angular/core'
     }, type);
+    console.log('%c newNode :: ', ' color: red', newNode);
 
     this.treeAsArray.push(newNode);
     this.nestedTree = [];
     this.el.innerHTML = '';
     this.fillTreeWithChildren(this.nestedTree, 'root-node');
-    this.printTree(this.nestedTree, this.el);
-    this.ctxMenu.style.display = 'none';
+    MainView.printTree(this.nestedTree, this.el);
+    CtxMenuView.closeMenu();
   }
 
   /**  search node in tree array
@@ -68,31 +74,11 @@ class Main {
       );
       this.treeAsArray.splice(indexToRemove, 1);
       this.fillTreeWithChildren(this.nestedTree, 'root-node');
-      this.printTree(this.nestedTree, this.el);
+      MainView.printTree(this.nestedTree, this.el);
     }
   }
 
-  /**  prints html tree structre
-  * @Param {Nodes[]} list, 
-  * @Param {string} container : html container
-  */
-  printTree(list, container) {
-    for (let i = 0; i < list.length; i++) {
-      let li = document.createElement('li');
-      li.setAttribute('oncontextmenu', 'mainObj.openContextMenu()');
-      li.setAttribute('onclick', 'mainObj.showComponentInEditor(this)');
-      li.className = list[i].data.name;
-      li.id = list[i].id;
-      li.innerHTML = list[i].data.name;
-      if (list[i].childrens.length > 0) {
-        let ul = document.createElement('ul');
-        ul.setAttribute('oncontextmenu', 'mainObj.openContextMenu()');
-        li.appendChild(ul);
-        this.printTree(list[i].childrens, ul);
-      }
-      container.appendChild(li);
-    }
-  }
+
 
   /**  cretes tree like structure
   * @Param {Nodes[]} childrenArr, 
@@ -124,30 +110,15 @@ class Main {
     this.onSelectComponent()
     this.disableRemoveBtn.disabled = false;
     this.editorParaTitle.innerText = this.selectedComponent.data.name;
-    this.editorPara.value = this.selectedComponent.data.data_sql;
+    this.editorPara.value = this.selectedComponent.data.data;
   }
   
-  /**  onRight cLicked mouse Event : saves clicked on component and open contect menu 
-  */
-  openContextMenu() {
-    event.preventDefault();
-    this.saveRightClickdClass = event.target.className;
-    this.ctxMenu.style.display = 'block';
-    this.ctxMenu.style.left = event.pageX - 10 + 'px';
-    this.ctxMenu.style.top = event.pageY - 10 + 'px';
-    this.onSelectComponent();
-  }
-
-  /**  clears context menufrom view 
-  */
-  closeContextMenu(){
-    this.ctxMenu.style.display = 'none';
-  }
+ 
 
   /**  saves new edited data to component 
   */
   editData() {
-      this.selectedComponent.data.data_sql = this.editorPara.value;
+      this.selectedComponent.data.data = this.editorPara.value;
   }
 
   /**  userSearch : when user press a key it will Re-render the tree 
@@ -160,17 +131,17 @@ class Main {
         found = found[0];
         if (found.childrens.length > 0) {
             this.fillTreeWithChildren(this.nestedTree, found.data.name);
-            this.printTree(this.nestedTree, this.el);
+            MainView.printTree(this.nestedTree, this.el);
         } else {
             let parent = this.treeAsArray.find(node => node.data.name === found.parent);
             parent.childrens = [];
             parent.childrens.push(found);
             this.nestedTree = [parent];
-            this.printTree(this.nestedTree, this.el); 
+            MainView.printTree(this.nestedTree, this.el); 
         }
       } else if (this.userSearchInput.value === ''){
         this.fillTreeWithChildren(this.nestedTree, 'root-node');
-        this.printTree(this.nestedTree, this.el); 
+        MainView.printTree(this.nestedTree, this.el); 
       }
   }
   /**  unselect component and editor view

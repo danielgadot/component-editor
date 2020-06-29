@@ -1,9 +1,8 @@
-import mainObj from './../main.js';
+import mainObj from './../main/main.js';
 import FileModal from './../add-file-modal.js';
 
 class TreeCtrl {
     constructor() {
-        document.querySelector('.add-component').addEventListener('click', (e) => FileModal.openAddFile())
     }
 
 

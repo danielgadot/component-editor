@@ -1,5 +1,5 @@
 
-import mainObj from './main.js';
+import mainObj from './main/main.js';
 const fileTypes = ['html', 'js', 'css', 'directory'];
 
 

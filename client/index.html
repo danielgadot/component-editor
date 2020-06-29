@@ -9,30 +9,13 @@
 </head>
 
 <body>
-    <h1  title="## Start by adding a node in the + button
-
-    1. to add a child node click on parent and after +
-    2. give new node a name in the prompt
-   
-   - if you click a node you can see its data, to modify it click outside the textarea
-   
-   - to unselect a component click anywhere out side the panel and the editor ( on the grey area)
-   
-   - right click on any node to show actions
-   
-   - search is full component name only
-   
-   - how to move node inside tree works ?
-     * didnt find in the instructions how the user should choose where to , the idea is the same as moveNode,
-     * switch between two positions in tree array and plugin new parent if necessary"
-   ><span class="help">Help</span></h1>
-    <!-- <div class="page" onmousedown="mainObj.unselectedComponent()"> -->
-    <div class="page" >
+    <div class="page">
         <div class="panel-wrap">
-
+            <!-- <div class="actions-toolbar-wrap"></div> -->
+            <actions-toolbar-wrap></actions-toolbar-wrap>    
         </div>
 
-        <button style="float: right;height: 20px;margin-right: 20px;" onclick="togglePanel()"> <i class="toggle-panel left-arrow"></i></button>
+        <!-- <button style="float: right;height: 20px;margin-right: 20px;" onclick="togglePanel()"> <i class="toggle-panel left-arrow"></i></button> -->
         
         <div class="component-editor-wrap">
             <div style="display: flex; justify-content: center; vertical-align: center;">
@@ -43,24 +26,10 @@
             </div>
         </div>
     </div>
-    <menu id="ctxMenu">
-            <menu onclick="mainObj.addComponent(this)" title="Add"></menu>
-            <menu onclick="mainObj.removeComponent(this)" title="Remove"></menu>
-            <menu onclick="mainObj.askPositionToMoveNode()" title="Move"></menu>
-            <menu title="Order">
-            
-                <menu onclick="mainObj.moveNode(-1)" title="Up"></menu>
-                <menu onclick="mainObj.moveNode(1)" title="Down"></menu>
-            
-            </menu>
-    </menu>
+    <div class="ctx-menu-wrap"></div>
 </body>
 
-<!-- <script src="util.js"></script> -->
-<!-- <script src="node.js"></script> -->
-<script src="main.js" type="module"></script>
-<!-- <script src="add-file-modal.js"></script> -->
-
+<script src="main/main.js" type="module"></script>
 
 </html>
 
